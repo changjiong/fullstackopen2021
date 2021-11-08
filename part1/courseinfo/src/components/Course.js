@@ -1,5 +1,5 @@
 import React from "react";
-import { nanoid } from 'nanoid';
+import { nanoid } from "nanoid";
 
 const Header = ({ course }) => {
   return <h1>{course.name}</h1>;
@@ -23,11 +23,23 @@ const Content = ({ course }) => {
   );
 };
 
+const Total = ({ course }) => {
+  return (
+    <p>
+      <strong>
+        Total of {course.parts.reduce((sum, part) => sum + part.exercises, 0)}
+        exercises
+      </strong>
+    </p>
+  );
+};
+
 const Course = ({ course }) => {
   return (
     <div>
       <Header course={course} />
       <Content course={course} />
+      <Total course={course} />
     </div>
   );
 };
