@@ -1,8 +1,7 @@
 import React from "react";
-import { nanoid } from "nanoid";
 
 const Header = ({ course }) => {
-  return <h1>{course.name}</h1>;
+  return <h2>{course.name}</h2>;
 };
 
 const Part = (props) => {
@@ -17,7 +16,7 @@ const Content = ({ course }) => {
   return (
     <div>
       {course.parts.map((part) => (
-        <Part key={nanoid()} part={part} />
+        <Part key={part.id} part={part} />
       ))}
     </div>
   );
