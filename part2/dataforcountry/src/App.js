@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Country from "./components/Country";
+import Countries from "./components/Countries";
 
 const App = () => {
   const [countries, setCountries] = useState([]);
@@ -40,29 +42,9 @@ const App = () => {
         <div>too many matches, specify another filter</div>
       )}
       {filterCountries.length <= 10 && filterCountries.length > 1 && (
-        <ul>
-          {filterCountries.map((country) => (
-            <li key={country.name.official}>{country.name.official}</li>
-          ))}
-        </ul>
+        <Countries filterCountries={filterCountries} />
       )}
-      {filterCountries.length === 1 && (
-        <div>
-          <h1>{filterCountries[0].name.official}</h1>
-          <div>capital {filterCountries[0].capital[0]}</div>
-          <div>population {filterCountries[0].population}</div>
-          <h2>languages</h2>
-          <ul>
-            {Object.values(filterCountries[0].languages).map((language) => (
-              <li key={language}>{language}</li>
-            ))}
-          </ul>
-          <img
-            src={filterCountries[0].flags.png}
-            alt={filterCountries[0].name.official}
-          />
-        </div>
-      )}
+      {filterCountries.length === 1 && <Country country={filterCountries[0]} />}
       {filterCountries.length === 0 && <div>no matches</div>}
     </div>
   );
