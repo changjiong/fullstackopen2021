@@ -3,6 +3,7 @@ import axios from "axios";
 import Country from "./components/Country";
 import Countries from "./components/Countries";
 
+console.log(process.env.REACT_APP_WEATHER_API_KEY);
 const App = () => {
   const [countries, setCountries] = useState([]);
   const [filter, setFilter] = useState("");
@@ -15,6 +16,23 @@ const App = () => {
       setCountries(response.data);
     });
   }, []);
+
+  const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
+  const getWeather = (location) => {
+    console.log("getWeather");
+    try {
+      axios
+        .get(
+          `http://api.weatherstack.com/current?access_key=${API_KEY}&query=${location}`
+        )
+        .then((response) => {
+          console.log(response.data);
+          return response.data.current;
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
@@ -42,9 +60,15 @@ const App = () => {
         <div>too many matches, specify another filter</div>
       )}
       {filterCountries.length <= 10 && filterCountries.length > 1 && (
-        <Countries filterCountries={filterCountries} />
+        <Countries filterCountries={filterCountries} getWeather={getWeather}/>
       )}
-      {filterCountries.length === 1 && <Country country={filterCountries[0]} />}
+      {filterCountries.length === 1 && (
+        <Country
+          country={filterCountries[0]}
+          getWeather={getWeather}
+          showCountry={true}
+        />
+      )}
       {filterCountries.length === 0 && <div>no matches</div>}
     </div>
   );
