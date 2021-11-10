@@ -3,7 +3,6 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Person from "./components/Person";
 import phoneService from "./services/phones";
-import Notification from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -16,6 +15,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
   const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     phoneService
@@ -43,15 +43,24 @@ const App = () => {
         )
       ) {
         const id = existingPerson.id;
-        phoneService.update(id, newPerson).then((response) => {
-          setPersons(
-            persons.map((person) => (person.id !== id ? person : response.data))
-          );
-          setSuccessMessage(`Added ${newName}`);
-          setTimeout(() => {
-            setSuccessMessage(null);
-          }, 5000);
-        });
+        phoneService
+          .update(id, newPerson)
+          .then((response) => {
+            setPersons(
+              persons.map((person) =>
+                person.id !== id ? person : response.data
+              )
+            );
+            setSuccessMessage(`Added ${newName}`);
+            setTimeout(() => {
+              setSuccessMessage(null);
+            }, 5000);
+          })
+          .catch((error) => {
+            setErrorMessage(
+              `Information of ${newName} has already been removed from server`
+            );
+          });
       }
     } else {
       phoneService
@@ -97,10 +106,25 @@ const App = () => {
     }
   };
 
+  const Success = ({ message }) => {
+    if (message === null) {
+      return null;
+    }
+
+    return <div className="success">{message}</div>;
+  };
+  const Error = ({ message }) => {
+    if (message === null) {
+      return null;
+    }
+    return <div className="error">{message}</div>;
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={successMessage} />
+      <Success message={successMessage} />
+      <Error message={errorMessage} />
       <Filter filter={filterName} onFilterChange={handleFilterChange} />
       <h3>add a new</h3>
       <PersonForm
