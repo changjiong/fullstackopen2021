@@ -1,8 +1,8 @@
-import axios from "axios";
 import React, { useState } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
+import phoneService from "./services/phones";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -30,8 +30,9 @@ const App = () => {
       setPersons(persons.concat(newPerson));
       setNewName("");
       setNewNumber("");
-      axios
-        .post("http://debian:3001/persons", newPerson)
+
+      phoneService
+        .create(newPerson)
         .then((response) => {
           console.log(response);
         })
