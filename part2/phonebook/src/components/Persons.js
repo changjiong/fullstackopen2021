@@ -1,7 +1,7 @@
 import React from "react";
 
 const Persons = ({ persons, filter }) => {
-  const filteredPersons = persons.filter((person) => person.name.match(filter));
+  const filteredPersons = persons.filter((person) => person.name.toLowerCase().match(filter));
 
   return (
     <ul>

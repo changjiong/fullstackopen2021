@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
@@ -29,6 +30,14 @@ const App = () => {
       setPersons(persons.concat(newPerson));
       setNewName("");
       setNewNumber("");
+      axios
+        .post("http://debian:3001/persons", newPerson)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
   const handleNameChange = (event) => {
