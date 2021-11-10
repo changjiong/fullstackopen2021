@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
-import Persons from "./components/Persons";
+import Person from "./components/Person";
 import phoneService from "./services/phones";
 
 const App = () => {
@@ -20,21 +20,18 @@ const App = () => {
     const newPerson = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1,
     };
     console.log(newPerson);
 
     if (persons.find((person) => person.name === newName)) {
       alert(`${newName} is already added to phonebook`);
     } else {
-      setPersons(persons.concat(newPerson));
-      setNewName("");
-      setNewNumber("");
-
       phoneService
         .create(newPerson)
         .then((response) => {
-          console.log(response);
+          setPersons(persons.concat(response.data));
+          setNewName("");
+          setNewNumber("");
         })
         .catch((error) => {
           console.log(error);
@@ -52,6 +49,22 @@ const App = () => {
     setFilterName(event.target.value);
   };
 
+  const handleDlete = (id) => {
+    const person = persons.find((person) => person.id === id);
+    console.log(person);
+    if (window.confirm(`Delete ${person.name}?`)) {
+      setPersons(persons.filter((person) => person.id !== id));
+      phoneService
+        .remove(id)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -65,7 +78,17 @@ const App = () => {
         handleSubmit={handleSubmit}
       />
       <h3>Numbers</h3>
-      <Persons persons={persons} filter={filterName} />
+      {persons
+        .filter((person) =>
+          person.name.toLowerCase().includes(filterName.toLowerCase())
+        )
+        .map((person) => (
+          <Person
+            key={person.id}
+            person={person}
+            handleDlete={() => handleDlete(person.id)}
+          />
+        ))}
     </div>
   );
 };
