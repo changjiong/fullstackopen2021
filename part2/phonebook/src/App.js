@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Person from "./components/Person";
@@ -15,28 +15,50 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
 
+  useEffect(() => {
+    phoneService
+      .getAll()
+      .then((response) => {
+        setPersons(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const newPerson = {
       name: newName,
       number: newNumber,
     };
-    console.log(newPerson);
+    const existingPerson = persons.find((person) => person.name === newName);
 
-    if (persons.find((person) => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`);
+    if (existingPerson) {
+      if (
+        window.confirm(
+          `${newName} is already added to phonebook, replace the old number with a new one?`
+        )
+      ) {
+        const id = existingPerson.id;
+        phoneService.update(id, newPerson).then((response) => {
+          setPersons(
+            persons.map((person) => (person.id !== id ? person : response.data))
+          );
+        });
+      }
     } else {
       phoneService
         .create(newPerson)
         .then((response) => {
           setPersons(persons.concat(response.data));
-          setNewName("");
-          setNewNumber("");
         })
         .catch((error) => {
           console.log(error);
         });
     }
+    setNewName("");
+    setNewNumber("");
   };
   const handleNameChange = (event) => {
     setNewName(event.target.value);
