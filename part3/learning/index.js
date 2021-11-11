@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+app.use(express.json());
 
 let notes = [
   {
@@ -27,6 +28,12 @@ app.get("/", (req, res) => {
 });
 app.get("/api/notes", (req, res) => {
   res.json(notes);
+});
+
+app.post("/api/notes", (req, res) => {
+  const note = req.body;
+  console.log(note);
+  res.json(note);
 });
 
 const PORT = 3001;
