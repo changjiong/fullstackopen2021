@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Person from "./components/Person";
+import Notification from "./components/Notification";
 import phoneService from "./services/phones";
 
 const App = () => {
@@ -14,8 +15,10 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
-  const [successMessage, setSuccessMessage] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [notification, setNotification] = useState({
+    message: null,
+    type: "success",
+  });
 
   useEffect(() => {
     phoneService
@@ -51,15 +54,16 @@ const App = () => {
                 person.id !== id ? person : response.data
               )
             );
-            setSuccessMessage(`Added ${newName}`);
+            setNotification({ message: `Added ${newName}` });
             setTimeout(() => {
-              setSuccessMessage(null);
+              setNotification({ message: null });
             }, 5000);
           })
           .catch((error) => {
-            setErrorMessage(
-              `Information of ${newName} has already been removed from server`
-            );
+            setNotification({
+              message: `Information of ${newName} has already been removed from server`,
+              type: "error",
+            });
           });
       }
     } else {
@@ -71,9 +75,9 @@ const App = () => {
         .catch((error) => {
           console.log(error);
         });
-      setSuccessMessage(`Added ${newName}`);
+      setNotification({ message: `Added ${newName}` });
       setTimeout(() => {
-        setSuccessMessage(null);
+        setNotification({ message: null });
       }, 5000);
     }
     setNewName("");
@@ -106,25 +110,10 @@ const App = () => {
     }
   };
 
-  const Success = ({ message }) => {
-    if (message === null) {
-      return null;
-    }
-
-    return <div className="success">{message}</div>;
-  };
-  const Error = ({ message }) => {
-    if (message === null) {
-      return null;
-    }
-    return <div className="error">{message}</div>;
-  };
-
   return (
     <div>
       <h2>Phonebook</h2>
-      <Success message={successMessage} />
-      <Error message={errorMessage} />
+      <Notification message={notification.message} type={notification.type} />
       <Filter filter={filterName} onFilterChange={handleFilterChange} />
       <h3>add a new</h3>
       <PersonForm
