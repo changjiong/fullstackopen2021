@@ -15,10 +15,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
-  const [notification, setNotification] = useState({
-    message: null,
-    type: "success",
-  });
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     phoneService
@@ -30,6 +27,13 @@ const App = () => {
         console.log(error);
       });
   }, []);
+
+  const notifyWith = (message, type = "success") => {
+    setNotification({ message, type });
+    setTimeout(() => {
+      setNotification(null);
+    }, 5000);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -54,13 +58,10 @@ const App = () => {
                 person.id !== id ? person : response.data
               )
             );
-            setNotification({ message: `Added ${newName}` });
-            setTimeout(() => {
-              setNotification({ message: null });
-            }, 5000);
+            notifyWith(`Added ${newName}`);
           })
           .catch((error) => {
-            setNotification({
+            notifyWith({
               message: `Information of ${newName} has already been removed from server`,
               type: "error",
             });
@@ -75,10 +76,7 @@ const App = () => {
         .catch((error) => {
           console.log(error);
         });
-      setNotification({ message: `Added ${newName}` });
-      setTimeout(() => {
-        setNotification({ message: null });
-      }, 5000);
+      notifyWith(`Added ${newName}`);
     }
     setNewName("");
     setNewNumber("");
@@ -99,6 +97,7 @@ const App = () => {
     console.log(person);
     if (window.confirm(`Delete ${person.name}?`)) {
       setPersons(persons.filter((person) => person.id !== id));
+      notifyWith(`Deleted ${person.name}`);
       phoneService
         .remove(id)
         .then((response) => {
@@ -113,7 +112,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notification.message} type={notification.type} />
+      <Notification notification={notification} />
       <Filter filter={filterName} onFilterChange={handleFilterChange} />
       <h3>add a new</h3>
       <PersonForm
