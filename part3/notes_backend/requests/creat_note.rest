@@ -2,7 +2,6 @@ POST http://debian:3001/api/notes
 Content-Type: application/json
 
 {
-  "title": "My second note",
-  "content": "This is my second note",
+  "content": "third note",
   "important": true
 }
