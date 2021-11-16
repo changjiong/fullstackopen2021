@@ -27,6 +27,13 @@ const errorHandler = (error, request, response, next) => {
   next(error);
 };
 
+app.get("/info", (request, response) => {
+  Person.find({}).then((persons) => {
+    const date = new Date();
+    const info = `<p>Phonebook has info for ${persons.length} people</p> <p>${date}</p>`;
+    response.send(info);
+  });
+});
 app.get("/api/persons", (request, response) => {
   Person.find({}).then((persons) => {
     response.json(persons);
