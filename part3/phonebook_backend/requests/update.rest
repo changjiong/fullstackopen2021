@@ -1,0 +1,7 @@
+PUT http://debian:3001/api/persons/:id 
+Content-Type: application/json
+
+{
+    "name": "lsnn",
+    "number": 3001
+}
