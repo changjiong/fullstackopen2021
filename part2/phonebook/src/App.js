@@ -37,44 +37,17 @@ const App = () => {
       name: newName,
       number: newNumber,
     };
-    const existingPerson = persons.find((person) => person.name === newName);
-    console.log("existingPerson:", existingPerson);
+    phoneService
+      .create(newPerson)
+      .then((response) => {
+        setPersons(persons.concat(response.data));
+        notifyWith(`Added ${newName}`);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+        notifyWith(`error: ${error.response.data}`, "error");
+      });
 
-    if (existingPerson) {
-      if (
-        window.confirm(
-          `${newName} is already added to phonebook, replace the old number with a new one?`
-        )
-      ) {
-        const id = existingPerson.id;
-        phoneService
-          .update(id, newPerson)
-          .then((response) => {
-            setPersons(
-              persons.map((person) =>
-                person.id !== id ? person : response.data
-              )
-            );
-            notifyWith(`updated ${newName}`);
-          })
-          .catch((error) => {
-            notifyWith({
-              message: `Information of ${newName} has already been removed from server`,
-              type: "error",
-            });
-          });
-      }
-    } else {
-      phoneService
-        .create(newPerson)
-        .then((response) => {
-          setPersons(persons.concat(response.data));
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      notifyWith(`Added ${newName}`);
-    }
     setNewName("");
     setNewNumber("");
   };
