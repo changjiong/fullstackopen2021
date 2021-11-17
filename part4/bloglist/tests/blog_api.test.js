@@ -22,6 +22,12 @@ test('blogs are returned as json', async () => {
         .expect('Content-Type', /application\/json/)
 }, 10000)
 
+test('blogs have id property', async () => {
+    const response = await api.get('/api/blogs')
+    expect(response.body[0].id).toBeDefined()
+}, 10000)
+
+
 test('there are two blogs', async () => {
     const response = await api.get('/api/blogs')
 
