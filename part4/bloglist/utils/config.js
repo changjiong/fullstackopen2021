@@ -1,8 +1,8 @@
 const PORT = 3001
 const MONGODB_URI =
-  'mongodb+srv://fullstack:fullstack@fullstack.w3qzu.mongodb.net/bloglist?retryWrites=true&w=majority'
+  'balabala'
 
 module.exports = {
-  MONGODB_URI,
-  PORT,
+    MONGODB_URI,
+    PORT,
 }
