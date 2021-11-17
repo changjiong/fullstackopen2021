@@ -9,3 +9,17 @@ Content-Type: application/json
 
 ###
 GET http://debian:3001/api/blogs
+
+###
+DELETE http://debian:3001/api/blogs/61952a66edc721c80619a56e
+
+###
+PUT  http://debian:3001/api/blogs/61952cf82bf4706c793f7cfa
+Content-Type: application/json
+
+{
+  "title": "My sixth blog",
+  "author": "lsnn",
+  "url": "http://debian:3001/api/blogs",
+  "likes": 10
+}
