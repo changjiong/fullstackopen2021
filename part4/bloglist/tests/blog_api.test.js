@@ -79,22 +79,24 @@ test('a blog can be deleted', async () => {
 
 test('a valid blog can be added', async () => {
     const newBlog = {
-        content: 'async/await simplifies making async calls',
-        important: true,
+        title: 'Lsnn wonderful',
+        author: 'Robert C. Martin',
+        url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
+        likes: 200,
     }
 
     await api
         .post('/api/blogs')
         .send(newBlog)
-        .expect(200)
+        .expect(201)
         .expect('Content-Type', /application\/json/)
 
     const blogsAtEnd = await helper.blogsInDb()
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
 
-    const contents = blogsAtEnd.map(n => n.content)
+    const contents = blogsAtEnd.map(n => n.title)
     expect(contents).toContain(
-        'async/await simplifies making async calls'
+        'Lsnn wonderful'
     )
 })
 
