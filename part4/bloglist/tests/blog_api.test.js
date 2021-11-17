@@ -100,9 +100,29 @@ test('a valid blog can be added', async () => {
     )
 })
 
-test('blog without content is not added', async () => {
+test('blog without like is set to 0', async () => {
     const newBlog = {
-        important: true
+        'title': 'My seventh blog',
+        'author': 'lsnn',
+        'url': 'http://debian:3001/api/blogs'
+
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+    const likes = blogsAtEnd.map(n => n.likes)
+    expect(likes).toContain(0)
+},60000)
+
+test('blog without title or url is not added', async () => {
+    const newBlog = {
+        'author': 'lsnn',
+        'url': 'http://debian:3001/api/blogs'
     }
 
     await api
@@ -112,8 +132,8 @@ test('blog without content is not added', async () => {
 
     const blogsAtEnd = await helper.blogsInDb()
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
-
 },60000)
+
 
 afterAll(() => {
     mongoose.connection.close()

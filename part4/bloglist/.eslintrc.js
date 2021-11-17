@@ -19,5 +19,9 @@ module.exports = {
         'no-trailing-spaces': 'error',
         'object-curly-spacing': ['error', 'always'],
         'arrow-spacing': ['error', { before: true, after: true }],
+        'newline-before-return':1,
+        'newline-per-chained-call':1,
+        'no-mixed-spaces-and-tabs': 2,
+        'no-multiple-empty-lines': [2, { 'max': 2 }],
     },
 }

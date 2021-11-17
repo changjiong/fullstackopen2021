@@ -2,10 +2,10 @@ POST http://debian:3001/api/blogs HTTP/1.1
 Content-Type: application/json
 
 {
-  "title": "My third blog",
+  "title": "My fifth blog",
   "author": "lsnn",
-  "url": "http://debian:3001/api/blogs",
-  "likes": 91
+  "url": "http://debian:3001/api/blogs"
+
 }
 
 ###
