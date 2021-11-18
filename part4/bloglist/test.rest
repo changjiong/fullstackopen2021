@@ -21,7 +21,8 @@ Content-Type: application/json
   "title": "My sixth blog",
   "author": "lsnn",
   "url": "http://debian:3001/api/blogs",
-  "likes": 10
+  "likes": 10,
+  "userId" : "619658b7f9391ac6fe1be2b8"
 }
 
 ###create user
@@ -29,7 +30,7 @@ POST http://debian:3001/api/users HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "hellas",
-    "name": "Arto Hellas",
+    "username": "lsnn",
+    "name": "110 Hellas",
     "password": "110"
 }
