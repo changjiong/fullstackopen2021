@@ -1,1 +1,4 @@
 GET http://debian:3001/api/notes
+
+### get users
+GET http://debian:3001/api/users

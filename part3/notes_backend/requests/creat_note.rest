@@ -2,6 +2,7 @@ POST http://debian:3001/api/notes
 Content-Type: application/json
 
 {
-  "content": "three note",
-  "important": true
+  "content": "12 note",
+  "important": true,
+  "userId": "6195c83e619f9ba813f550d6"
 }
