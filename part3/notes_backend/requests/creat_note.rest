@@ -1,10 +1,21 @@
-POST http://debian:3001/api/notes
+
+POST http://debian:3001/api/login
 Content-Type: application/json
 
 {
+  "username": "one",
+  "password": "one"
+}
+
+###
+POST http://debian:3001/api/notes
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9uZSIsImlkIjoiNjE5NjBhYTFhZTFjNmM3ODk2NzM4Y2ZlIiwiaWF0IjoxNjM3MjIzNTY1fQ.hw7jbks2hJ0IiE7bVQ39G-DqeKvcpc0sA6MX5pAwiQI
+
+
+{
   "content": "87654678 note",
-  "important": true,
-  "userId": "6195c83e619f9ba813f550d6"
+  "important": true
 }
 
 
@@ -13,6 +24,6 @@ POST http://debian:3001/api/users
 content-type: application/json
 
 {
-  "username": "root",
-  "password": "test"
+  "username": "one",
+  "password": "one"
 }

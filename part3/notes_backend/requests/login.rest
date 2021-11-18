@@ -1,0 +1,7 @@
+POST http://debian:3001/api/login
+Content-Type: application/json
+
+{
+  "username": "one",
+  "password": "one"
+}
