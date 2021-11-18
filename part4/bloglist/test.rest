@@ -1,10 +1,12 @@
 POST http://debian:3001/api/blogs HTTP/1.1
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imxzbm4iLCJpZCI6IjYxOTY1OGI3ZjkzOTFhYzZmZTFiZTJiOCIsImlhdCI6MTYzNzI0NDc5NCwiZXhwIjoxNjM3MjQ4Mzk0fQ.IQ0Id_EXFOUzBc553WM8Cb9Oc2DHF2b3A9XajLfUECw
 
 {
-  "title": "My sixth blog",
+  "title": "My fourth blog",
   "author": "lsnn",
-  "url": "http://debian:3001/api/blogs"
+  "url": "http://debian:3001/api/blogs",
+  "likes": 10
 }
 
 ###
@@ -18,7 +20,7 @@ PUT  http://debian:3001/api/blogs/61952cf82bf4706c793f7cfa
 Content-Type: application/json
 
 {
-  "title": "My sixth blog",
+  "title": "My first blog",
   "author": "lsnn",
   "url": "http://debian:3001/api/blogs",
   "likes": 10,
@@ -32,5 +34,14 @@ Content-Type: application/json
 {
     "username": "lsnn",
     "name": "110 Hellas",
+    "password": "110"
+}
+
+### login
+POST http://debian:3001/api/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "lsnn",
     "password": "110"
 }
