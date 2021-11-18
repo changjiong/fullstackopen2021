@@ -2,7 +2,17 @@ POST http://debian:3001/api/notes
 Content-Type: application/json
 
 {
-  "content": "12 note",
+  "content": "87654678 note",
   "important": true,
   "userId": "6195c83e619f9ba813f550d6"
+}
+
+
+### creat user
+POST http://debian:3001/api/users
+content-type: application/json
+
+{
+  "username": "root",
+  "password": "test"
 }
