@@ -59,7 +59,7 @@ const initialUsers = [
     {
         username: 'root',
         name: 'Superuser',
-        password: '110'
+        password: 'salainen',
     },
     {
         username: 'test',
