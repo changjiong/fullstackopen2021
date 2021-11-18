@@ -45,3 +45,6 @@ Content-Type: application/json
     "username": "lsnn",
     "password": "110"
 }
+
+### delete blog
+DELETE http://debian:3001/api/blogs/61965fbbacd8511eaaec8fca
