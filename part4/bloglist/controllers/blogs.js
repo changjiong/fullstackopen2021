@@ -19,12 +19,11 @@ blogsRouter.post('/', async (request, response) => {
         return response.status(400).json({ error: 'title and url are required' })
     }
 
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-    if (!request.token || !decodedToken.id) {
+    const userId = request.user
+    if (!userId) {
         return response.status(401).json({ error: 'token missing or invalid' })
     }
-
-    const user = await User.findById(decodedToken.id)
+    const user = await User.findById(userId)
     if (!user) {
         return response.status(400).json({ error: 'user not found' })
     }
@@ -45,8 +44,10 @@ blogsRouter.post('/', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-    if (!request.token || !decodedToken.id) {
+
+    const userId = request.user
+
+    if (!userId) {
         return response.status(401).json({ error: 'token missing or invalid' })
     }
     if (!request.params.id) {
@@ -56,7 +57,7 @@ blogsRouter.delete('/:id', async (request, response) => {
     if (!blog) {
         return response.status(400).json({ error: 'blog not found' })
     }
-    if (blog.user.toString() !== decodedToken.id) {
+    if (blog.user.toString() !== userId) {
         return response.status(401).json({ error: 'not authorized' })
     }
 
