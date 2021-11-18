@@ -5,8 +5,13 @@ const userSchema = new mongooose.Schema({
         type: String,
         required: true,
         unique: true,
+        minlength: 3
     },
-    password: { type: String, required: true },
+    password: {
+        type: String,
+        required: true,
+        minlength: 3
+    },
     name: String,
 })
 
