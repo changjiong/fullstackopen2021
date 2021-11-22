@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import Note from './components/Note'
+import Notification from './components/Notification'
+import Footer from './components/Footer'
 import noteService from './services/notes'
 import loginService from './services/login'
 
 const App = () => {
     const [notes, setNotes] = useState([])
-    const [newNote, setNewNote] = useState('a new note...')
+    const [newNote, setNewNote] = useState('')
     const [showAll, setShowAll] = useState(true)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -48,22 +50,23 @@ const App = () => {
     }
 
     const toggleImportance = (id) => {
-        console.log('make', notes)
         const note = notes.find((note) => note.id === id)
-        console.log('note', note)
         const changedNote = { ...note, important: !note.important }
-        console.log('changedNote', changedNote)
+
         noteService
             .update(id, changedNote)
             .then((response) => {
                 setNotes(
                     notes.map((note) => (note.id !== id ? note : response.data))
                 )
-                console.log('respinsedata', response.data)
-                console.log('newNotes', notes)
             })
             .catch((error) => {
-                console.log(error)
+                setErrorMessage(
+                    `Note '${note.content}' was already removed from server`
+                )
+                setTimeout(() => {
+                    setErrorMessage(null)
+                }, 5000)
             })
     }
 
@@ -77,6 +80,7 @@ const App = () => {
                 username,
                 password,
             })
+            noteService.setToken(user.token)
             setUser(user)
             setUsername('')
             setPassword('')
@@ -86,16 +90,6 @@ const App = () => {
                 setErrorMessage(null)
             }, 5000)
         }
-    }
-
-    const handleUsernameChange = (event) => {
-        console.log('username', event.target.value)
-        setUsername(event.target.value)
-    }
-
-    const handlePasswordChange = (event) => {
-        console.log('password', event.target.value)
-        setPassword(event.target.value)
     }
 
     const loginForm = () => (
@@ -121,7 +115,6 @@ const App = () => {
             <button type='submit'>login</button>
         </form>
     )
-
     const noteForm = () => (
         <form onSubmit={addNote}>
             <input value={newNote} onChange={handleNoteChange} />
@@ -132,7 +125,7 @@ const App = () => {
     return (
         <div>
             <h1>Notes</h1>
-
+            <Notification message={errorMessage} />
             {user === null ? (
                 loginForm()
             ) : (
@@ -156,10 +149,8 @@ const App = () => {
                     />
                 ))}
             </ul>
-            <form onSubmit={addNote}>
-                <input value={newNote} onChange={handleNoteChange} />
-                <button type='submit'>save</button>
-            </form>
+
+            <Footer />
         </div>
     )
 }

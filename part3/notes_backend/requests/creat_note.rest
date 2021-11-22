@@ -24,6 +24,6 @@ POST http://debian:3001/api/users
 content-type: application/json
 
 {
-  "username": "one",
-  "password": "one"
+  "username": "lsnn",
+  "password": "110"
 }
