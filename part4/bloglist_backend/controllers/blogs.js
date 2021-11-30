@@ -11,6 +11,8 @@ blogsRouter.get('/', async (request, response) => {
 
 
 blogsRouter.post('/', async (request, response) => {
+    const body = request.body
+    console.log(body)
     if (!request.body.likes) {
         request.body.likes = 0
     }
@@ -35,6 +37,7 @@ blogsRouter.post('/', async (request, response) => {
         likes: request.body.likes,
         user: user._id
     })
+    console.log('blog', blog)
 
     const savedBlog = await blog.save()
     user.blogs = user.blogs.concat(savedBlog._id)
