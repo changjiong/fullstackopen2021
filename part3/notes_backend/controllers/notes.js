@@ -14,11 +14,10 @@ notesRouter.get('/:id', async (request, response, next) => {
         response.json(note)
     } else {
         response.status(404).end()
-
     }
 })
 
-const getTokenFrom = request => {
+const getTokenFrom = (request) => {
     const authorization = request.get('authorization')
     if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
         return authorization.substring(7)
@@ -36,7 +35,6 @@ notesRouter.post('/', async (request, response, next) => {
     }
     const user = await User.findById(decodedToken.id)
 
-
     const note = new Note({
         content: body.content,
         important: body.important || false,
@@ -46,10 +44,9 @@ notesRouter.post('/', async (request, response, next) => {
 
     const savedNote = await note.save()
     user.notes = user.notes.concat(savedNote._id)
-    console.log('usernotes:----',user.notes)
+    console.log('usernotes:----', user.notes)
     await user.save()
     response.json(savedNote)
-
 })
 
 notesRouter.delete('/:id', async (request, response, next) => {
@@ -64,7 +61,6 @@ notesRouter.put('/:id', (request, response, next) => {
         content: body.content,
         important: body.important,
     }
-
 
     Note.findByIdAndUpdate(request.params.id, note, { new: true })
         .then((updatedNote) => {
